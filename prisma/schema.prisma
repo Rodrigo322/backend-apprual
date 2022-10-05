@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Buyer {
+  id        String    @id @default(uuid())
+  name      String
+  birthDate DateTime?
+  phone     String?   @unique
+  cpf       String?   @unique
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
+  Address   Address[]
+}
+
+model Address {
+  id           String  @id @default(uuid())
+  city         String
+  state        String
+  cep          String
+  street       String
+  neighborhood String
+  number       Int?
+  complement   String?
+  buyer        Buyer   @relation(fields: [buyerId], references: [id])
+  buyerId      String
+}
+
+model Producer {
+  id        String    @id @default(uuid())
+  name      String
+  cpf       String    @unique
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
+}
+
+model Product {
+  id         String    @id @default(uuid())
+  name       String
+  amount     Int       @default(0)
+  value      Decimal
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  producer   Producer? @relation(fields: [producerId], references: [id])
+  producerId String?
+  buyer      Buyer?    @relation(fields: [buyerId], references: [id])
+  buyerId    String?
+
+  Purchase_has_Product Purchase_has_Product[]
+}
+
+model Purchase {
+  id           String   @id @default(uuid())
+  deliveryDate DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  Purchase_has_Product Purchase_has_Product[]
+}
+
+model Purchase_has_Product {
+  id         String   @id @default(uuid())
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  String
+  purchase   Purchase @relation(fields: [purchaseId], references: [id])
+  purchaseId String
+  assignedAt DateTime @default(now())
+}
