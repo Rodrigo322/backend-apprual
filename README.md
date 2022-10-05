@@ -3,7 +3,7 @@
 </h1>
 
 <h3 align="center">
-    O OFairTa tem por objetico propcionar facilidade  na compra e venda de produtos oriundos dos pequenos produtores rurais da microrregião do Vão do Paranã.
+    O OFairTa tem por objetivo proporcionar facilidade  na compra e venda de produtos oriundos dos pequenos produtores rurais da microrregião do Vão do Paranã.
 </h3>
 
 <h4 align="center">
