@@ -5,8 +5,16 @@ import { prisma } from "../database/client/prisma";
 export class ProductController {
   async index(request: Request, response: Response) {
     const products = await prisma.product.findMany({
-      include: {
-        ImageProduct: true,
+      select: {
+        id: true,
+        name: true,
+        amount: true,
+        value: true,
+        ImageProduct: {
+          select: {
+            path: true,
+          },
+        },
       },
     });
 

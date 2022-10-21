@@ -1,14 +1,23 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 const express_1 = require("express");
+const multer_1 = __importDefault(require("multer"));
+const AuthBuyerController_1 = require("./controller/AuthBuyerController");
 const BuyerController_1 = require("./controller/BuyerController");
 const ProducerController_1 = require("./controller/ProducerController");
 const ProductController_1 = require("./controller/ProductController");
+const multer_2 = __importDefault(require("./config/multer"));
+const upload = (0, multer_1.default)(multer_2.default);
 const buyerController = new BuyerController_1.BuyerController();
 const producerController = new ProducerController_1.ProducerController();
 const productController = new ProductController_1.ProductController();
+const authBuyerController = new AuthBuyerController_1.AuthBuyerController();
 exports.router = (0, express_1.Router)();
+exports.router.post("/authBuyer", authBuyerController.authenticate);
 exports.router.post("/buyer", buyerController.store);
 exports.router.get("/buyers", buyerController.index);
 exports.router.put("/buyer/:id", buyerController.update);
@@ -16,7 +25,8 @@ exports.router.delete("/buyer/:id", buyerController.delete);
 exports.router.post("/producer", producerController.store);
 exports.router.get("/producers", producerController.index);
 exports.router.delete("/producer/:id", producerController.delete);
-exports.router.post("/producer/:id/product", productController.store);
+exports.router.post("/producer/:id/product", upload.array("images"), productController.store);
 exports.router.get("/products", productController.index);
 exports.router.delete("/product/:id", productController.delete);
+exports.router.delete("/products", productController.deleteMany);
 //# sourceMappingURL=routes.js.map

@@ -4,7 +4,19 @@ exports.ProductController = void 0;
 const prisma_1 = require("../database/client/prisma");
 class ProductController {
     async index(request, response) {
-        const products = await prisma_1.prisma.product.findMany({});
+        const products = await prisma_1.prisma.product.findMany({
+            select: {
+                id: true,
+                name: true,
+                amount: true,
+                value: true,
+                ImageProduct: {
+                    select: {
+                        path: true,
+                    },
+                },
+            },
+        });
         if (products.length <= 0) {
             return response.status(200).json({ message: "no registered product" });
         }
@@ -13,6 +25,7 @@ class ProductController {
     async store(request, response) {
         const { name, amount, value } = request.body;
         const { id } = request.params;
+        const requestImages = request.files;
         const isProducer = await prisma_1.prisma.producer.findUnique({
             where: {
                 id,
@@ -21,12 +34,20 @@ class ProductController {
         if (!isProducer) {
             return response.status(400).json({ error: "Producer not found." });
         }
+        const images = requestImages.map((image) => {
+            return {
+                path: `https://api-apprural-v1.herokuapp.com/images/${image.filename}`,
+            };
+        });
         const product = await prisma_1.prisma.product.create({
             data: {
                 name,
-                amount,
-                value,
+                amount: Number(amount),
+                value: Number(value),
                 producerId: id,
+                ImageProduct: {
+                    create: images,
+                },
             },
         });
         return response.status(201).json(product);
@@ -52,6 +73,10 @@ class ProductController {
         catch (error) {
             return response.status(400).json(error);
         }
+    }
+    async deleteMany(req, res) {
+        await prisma_1.prisma.product.deleteMany();
+        return res.status(204).json({ ok: true });
     }
 }
 exports.ProductController = ProductController;
