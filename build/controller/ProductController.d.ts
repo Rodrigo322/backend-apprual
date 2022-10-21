@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-export declare class ProducerController {
+export declare class ProductController {
     index(request: Request, response: Response): Promise<Response<any, Record<string, any>>>;
     store(request: Request, response: Response): Promise<Response<any, Record<string, any>>>;
     delete(request: Request, response: Response): Promise<Response<any, Record<string, any>>>;

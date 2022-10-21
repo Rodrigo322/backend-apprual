@@ -46,18 +46,26 @@ model Producer {
 }
 
 model Product {
-  id         String    @id @default(uuid())
-  name       String
-  amount     Int       @default(0)
-  value      Decimal
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  producer   Producer? @relation(fields: [producerId], references: [id])
-  producerId String?
-  buyer      Buyer?    @relation(fields: [buyerId], references: [id])
-  buyerId    String?
+  id           String         @id @default(uuid())
+  name         String
+  amount       Int            @default(0)
+  value        Decimal
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  producer     Producer?      @relation(fields: [producerId], references: [id])
+  producerId   String?
+  buyer        Buyer?         @relation(fields: [buyerId], references: [id])
+  buyerId      String?
+  ImageProduct ImageProduct[]
 
   Purchase_has_Product Purchase_has_Product[]
+}
+
+model ImageProduct {
+  id        String  @id @default(uuid())
+  path      String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
 }
 
 model Purchase {

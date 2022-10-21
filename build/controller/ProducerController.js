@@ -20,15 +20,25 @@ class ProducerController {
     }
     async store(request, response) {
         const { name, email, cpf, password } = request.body;
-        const isProducer = await prisma_1.prisma.producer.findUnique({
+        const isEmail = await prisma_1.prisma.producer.findUnique({
             where: {
                 email,
             },
         });
-        if (isProducer) {
+        if (isEmail) {
             return response
                 .status(400)
                 .json({ error: "there is already a producer with this email." });
+        }
+        const isCPF = await prisma_1.prisma.producer.findUnique({
+            where: {
+                cpf,
+            },
+        });
+        if (isCPF) {
+            return response
+                .status(400)
+                .json({ error: "there is already a producer with this CPF." });
         }
         const password_hash = await (0, bcryptjs_1.hash)(password, 8);
         const producer = await prisma_1.prisma.producer.create({
@@ -46,6 +56,28 @@ class ProducerController {
             },
         });
         return response.status(201).json(producer);
+    }
+    async delete(request, response) {
+        try {
+            const { id } = request.params;
+            const isProducer = await prisma_1.prisma.producer.findUnique({
+                where: {
+                    id,
+                },
+            });
+            if (!isProducer) {
+                return response.status(400).json({ error: "Producer not found." });
+            }
+            await prisma_1.prisma.producer.delete({
+                where: {
+                    id,
+                },
+            });
+            return response.status(204).json({ ok: true });
+        }
+        catch (error) {
+            return response.status(400).json(error);
+        }
     }
 }
 exports.ProducerController = ProducerController;
