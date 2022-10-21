@@ -4,7 +4,11 @@ import { prisma } from "../database/client/prisma";
 
 export class ProductController {
   async index(request: Request, response: Response) {
-    const products = await prisma.product.findMany({});
+    const products = await prisma.product.findMany({
+      include: {
+        ImageProduct: true,
+      },
+    });
 
     if (products.length <= 0) {
       return response.status(200).json({ message: "no registered product" });
@@ -16,6 +20,8 @@ export class ProductController {
     const { name, amount, value } = request.body;
     const { id } = request.params;
 
+    const requestImages = request.files as Express.Multer.File[];
+
     const isProducer = await prisma.producer.findUnique({
       where: {
         id,
@@ -26,12 +32,21 @@ export class ProductController {
       return response.status(400).json({ error: "Producer not found." });
     }
 
+    const images = requestImages.map((image) => {
+      return {
+        path: `https://api-apprural-v1.herokuapp.com/images/${image.filename}`,
+      };
+    });
+
     const product = await prisma.product.create({
       data: {
         name,
-        amount,
-        value,
+        amount: Number(amount),
+        value: Number(value),
         producerId: id,
+        ImageProduct: {
+          create: images,
+        },
       },
     });
 
@@ -62,5 +77,11 @@ export class ProductController {
     } catch (error) {
       return response.status(400).json(error);
     }
+  }
+
+  async deleteMany(req: Request, res: Response) {
+    await prisma.product.deleteMany();
+
+    return res.status(204).json({ ok: true });
   }
 }

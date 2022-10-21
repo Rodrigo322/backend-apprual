@@ -64,7 +64,7 @@ model Product {
 model ImageProduct {
   id        String  @id @default(uuid())
   path      String
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   productId String
 }
 
