@@ -40,7 +40,7 @@ export class ProductController {
         amount: Number(amount),
         value: Number(value),
         producerId: id,
-        img: `https://api-apprural-v1.herokuapp.com/images/${requestImage.filename}`,
+        //img: `https://api-apprural-v1.herokuapp.com/images/${requestImage.filename}`,
       },
     });
 
