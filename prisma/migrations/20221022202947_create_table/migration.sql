@@ -46,7 +46,7 @@ CREATE TABLE "Product" (
     "updatedAt" DATETIME NOT NULL,
     "producerId" TEXT,
     "buyerId" TEXT,
-    "img" TEXT,
+    "img" TEXT NOT NULL,
     CONSTRAINT "Product_producerId_fkey" FOREIGN KEY ("producerId") REFERENCES "Producer" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT "Product_buyerId_fkey" FOREIGN KEY ("buyerId") REFERENCES "Buyer" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );

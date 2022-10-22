@@ -56,7 +56,7 @@ model Product {
   producerId String?
   buyer      Buyer?    @relation(fields: [buyerId], references: [id])
   buyerId    String?
-  img        String?
+  img        String
 
   Purchase_has_Product Purchase_has_Product[]
 }

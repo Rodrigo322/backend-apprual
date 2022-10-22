@@ -28,19 +28,13 @@ export class ProductController {
       return response.status(400).json({ error: "Producer not found." });
     }
 
-    // const images = requestImages.map((image) => {
-    //   return {
-    //     path: `https://api-apprural-v1.herokuapp.com/images/${image.filename}`,
-    //   };
-    // });
-
     const product = await prisma.product.create({
       data: {
         name,
         amount: Number(amount),
         value: Number(value),
         producerId: id,
-        //img: `https://api-apprural-v1.herokuapp.com/images/${requestImage.filename}`,
+        img: `https://api-apprural-v1.herokuapp.com/images/${requestImage.filename}`,
       },
     });
 
