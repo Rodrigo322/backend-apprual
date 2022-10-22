@@ -4,15 +4,7 @@ exports.ProductController = void 0;
 const prisma_1 = require("../database/client/prisma");
 class ProductController {
     async index(request, response) {
-        const products = await prisma_1.prisma.product.findMany({
-            select: {
-                id: true,
-                name: true,
-                amount: true,
-                value: true,
-                img: true,
-            },
-        });
+        const products = await prisma_1.prisma.product.findMany();
         if (products.length <= 0) {
             return response.status(200).json({ message: "no registered product" });
         }
