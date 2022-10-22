@@ -29,7 +29,7 @@ router.delete("/producer/:id", producerController.delete);
 
 router.post(
   "/producer/:id/product",
-  upload.array("images"),
+  upload.single("images"),
   productController.store
 );
 router.get("/products", productController.index);
