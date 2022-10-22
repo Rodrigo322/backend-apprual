@@ -10,11 +10,7 @@ class ProductController {
                 name: true,
                 amount: true,
                 value: true,
-                ImageProduct: {
-                    select: {
-                        path: true,
-                    },
-                },
+                img: true,
             },
         });
         if (products.length <= 0) {
@@ -25,7 +21,7 @@ class ProductController {
     async store(request, response) {
         const { name, amount, value } = request.body;
         const { id } = request.params;
-        const requestImages = request.files;
+        const requestImage = request.file;
         const isProducer = await prisma_1.prisma.producer.findUnique({
             where: {
                 id,
@@ -34,20 +30,18 @@ class ProductController {
         if (!isProducer) {
             return response.status(400).json({ error: "Producer not found." });
         }
-        const images = requestImages.map((image) => {
-            return {
-                path: `https://api-apprural-v1.herokuapp.com/images/${image.filename}`,
-            };
-        });
+        // const images = requestImages.map((image) => {
+        //   return {
+        //     path: `https://api-apprural-v1.herokuapp.com/images/${image.filename}`,
+        //   };
+        // });
         const product = await prisma_1.prisma.product.create({
             data: {
                 name,
                 amount: Number(amount),
                 value: Number(value),
                 producerId: id,
-                ImageProduct: {
-                    create: images,
-                },
+                img: `https://api-apprural-v1.herokuapp.com/images/${requestImage.filename}`,
             },
         });
         return response.status(201).json(product);

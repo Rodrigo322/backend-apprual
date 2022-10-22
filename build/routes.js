@@ -25,7 +25,7 @@ exports.router.delete("/buyer/:id", buyerController.delete);
 exports.router.post("/producer", producerController.store);
 exports.router.get("/producers", producerController.index);
 exports.router.delete("/producer/:id", producerController.delete);
-exports.router.post("/producer/:id/product", upload.array("images"), productController.store);
+exports.router.post("/producer/:id/product", upload.single("images"), productController.store);
 exports.router.get("/products", productController.index);
 exports.router.delete("/product/:id", productController.delete);
 exports.router.delete("/products", productController.deleteMany);
