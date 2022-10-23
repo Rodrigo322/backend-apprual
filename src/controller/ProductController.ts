@@ -5,7 +5,7 @@ import { prisma } from "../database/client/prisma";
 export class ProductController {
   async index(request: Request, response: Response) {
     const products = await prisma.product.findMany();
-
+    //teste
     if (products.length <= 0) {
       return response.status(200).json({ message: "no registered product" });
     }
