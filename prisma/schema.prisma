@@ -17,7 +17,6 @@ model Buyer {
   password  String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Product   Product[]
   Address   Address[]
 }
 
@@ -54,8 +53,6 @@ model Product {
   updatedAt  DateTime  @updatedAt
   producer   Producer? @relation(fields: [producerId], references: [id])
   producerId String?
-  buyer      Buyer?    @relation(fields: [buyerId], references: [id])
-  buyerId    String?
   img        String
 
   Purchase_has_Product Purchase_has_Product[]
