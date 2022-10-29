@@ -9,7 +9,7 @@ function authMiddleware(req, res, next) {
     }
     const [, token] = authorization.split(" ");
     try {
-        const decoded = (0, jsonwebtoken_1.verify)(token, "çlknçkljashnçfsddkljaslçkjsd");
+        const decoded = (0, jsonwebtoken_1.verify)(token, "secret");
         const { id } = decoded;
         req.buyerId = id;
         next();
