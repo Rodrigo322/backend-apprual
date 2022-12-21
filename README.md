@@ -19,9 +19,21 @@ O aplicativo será disponibilizado na loja virtual de aplicativos Google Play ap
 ## ⚙️ Funcionalidades
 
 - [] Cadastro de Compradores
-- [] Atualizar cadastro de Compradores
-- [] Deletar cadastro de Compradores
-- [] Buscar todos os cadastro de Compradores
+- [] Cadastro de produtores
+
+- [] Aunteticação de usuarios com e-mail e senha
+
+- [] Cadastro de produtos
+- [] busca de produtos
+- [] alteração de produtos
+- [] remoção de produtos
+
+## ⚙️ Funcionalidades que ainda faltam ser implementadas
+
+- [] cadastro da historia do produtor
+- [] alteração de dados do produtor e comprador
+- [] realização da venda dos produtos
+- [] filtro de busca de produtos
 
 ---
 
